@@ -9,6 +9,8 @@ export default class PortfolioContainer extends Component {
 
         this.state = {
             pageTitle: "Welcome to my portfolio",
+            isLoading: false,
+            currentTime: String(new Date()),
             data: [
                {title: "DOMO", catagory:"Tech"}, 
                {title:" Pluralsight", catagory:"Learning"},
@@ -16,6 +18,7 @@ export default class PortfolioContainer extends Component {
                {title: "MX", catagory: "Enterprise"},
                {title: "Jobnimbus", catagory: "Enterprise"}
             ]
+
         };
 
         // this.handlePageTitleUpdate = this.handlePageTitleUpdate.bind(this)
@@ -33,6 +36,14 @@ export default class PortfolioContainer extends Component {
     //         pageTitle: "Something else"
     //     });
     // }
+    componentDidMount() {
+
+        this.liveTime = setInterval(() => {
+             console.log('New chat message')
+             this.setState({currentTime: String(new Date())})
+         },1000
+         )
+        }
 
     handleFilter(filter) {
         this.setState({
@@ -43,11 +54,16 @@ export default class PortfolioContainer extends Component {
     }
 
     render() {
+        const {currentTime} = this.state;
+        if (this.state.isLoading) {
+            return <div>Loading ....</div>;
+        }
+
         return (
             <div>
                 <h2> {this.state.pageTitle} </h2>
 
-                
+                <div>{currentTime}</div>
 
                 <button onClick={() => this.handleFilter('Enterprise')}>Enterprice</button>
                 <button onClick={() => this.handleFilter('Learning')}>Learning</button>
