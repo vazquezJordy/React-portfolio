@@ -12,11 +12,11 @@ export default class PortfolioContainer extends Component {
             isLoading: false,
             currentTime: String(new Date()),
             data: [
-               {title: "DOMO", catagory:"Tech"}, 
-               {title:" Pluralsight", catagory:"Learning"},
-               {title: "Divvy", catagory: "Enterprise" },
-               {title: "MX", catagory: "Enterprise"},
-               {title: "Jobnimbus", catagory: "Enterprise"}
+               {title: "DOMO", catagory:"Tech", slug:"domo"}, 
+               {title:" Pluralsight", catagory:"Learning", slug:"pluralsight"},
+               {title: "Divvy", catagory: "Enterprise", slug:"divvy" },
+               {title: "MX", catagory: "Enterprise", slug:"mx"},
+               {title: "Jobnimbus", catagory: "Enterprise", slug:"jobnimbus"}
             ]
 
         };
@@ -27,7 +27,7 @@ export default class PortfolioContainer extends Component {
 
     portfolioItems() {
         return this.state.data.map(item => {
-            return <PortfolioItem title={item.title} url={"google.com"} />;
+            return <PortfolioItem title={item.title} url={"google.com"} slug={item.slug}/>;
         });
     }
 
