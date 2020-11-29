@@ -1,4 +1,5 @@
 import React, {Component} from "react"
+import axios from 'axios';
 
 import PortfolioItem from "./portfolio-Item"
 
@@ -11,13 +12,7 @@ export default class PortfolioContainer extends Component {
             pageTitle: "Welcome to my portfolio",
             isLoading: false,
             currentTime: String(new Date()),
-            data: [
-               {title: "DOMO", catagory:"Tech", slug:"domo"}, 
-               {title:" Pluralsight", catagory:"Learning", slug:"pluralsight"},
-               {title: "Divvy", catagory: "Enterprise", slug:"divvy" },
-               {title: "MX", catagory: "Enterprise", slug:"mx"},
-               {title: "Jobnimbus", catagory: "Enterprise", slug:"jobnimbus"}
-            ]
+            data: []
 
         };
 
@@ -25,9 +20,25 @@ export default class PortfolioContainer extends Component {
         this.handleFilter = this.handleFilter.bind(this);
     }
 
+    getPortfolioItems() {
+        axios.get('https://jvazquez.devcamp.space/portfolio/portfolio_items')
+      .then( response => {
+        // handle success
+        
+        this.setState({
+            data: response.data.portfolio_items
+        })
+      })
+      .catch (error => {
+        // handle error
+        console.log(error);
+      })
+      }
+
     portfolioItems() {
         return this.state.data.map(item => {
-            return <PortfolioItem title={item.title} url={"google.com"} slug={item.slug}/>;
+            
+            return <PortfolioItem title={item.name} url={item.url} slug={item.id}/>;
         });
     }
 
@@ -36,14 +47,14 @@ export default class PortfolioContainer extends Component {
     //         pageTitle: "Something else"
     //     });
     // }
-    componentDidMount() {
+    // componentDidMount() {
 
-        this.liveTime = setInterval(() => {
-             console.log('New chat message')
-             this.setState({currentTime: String(new Date())})
-         },1000
-         )
-        }
+    //     this.liveTime = setInterval(() => {
+    //         //  console.log('New chat message')
+    //          this.setState({currentTime: String(new Date())})
+    //      },1000
+    //      )
+    //     }
 
     handleFilter(filter) {
         this.setState({
@@ -53,8 +64,12 @@ export default class PortfolioContainer extends Component {
         });
     }
 
+    componentDidMount() {
+        this.getPortfolioItems();
+    }
+
     render() {
-        const {currentTime} = this.state;
+        
         if (this.state.isLoading) {
             return <div>Loading ....</div>;
         }
@@ -62,8 +77,6 @@ export default class PortfolioContainer extends Component {
         return (
             <div>
                 <h2> {this.state.pageTitle} </h2>
-
-                <div>{currentTime}</div>
 
                 <button onClick={() => this.handleFilter('Enterprise')}>Enterprice</button>
                 <button onClick={() => this.handleFilter('Learning')}>Learning</button>

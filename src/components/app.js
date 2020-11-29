@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import moment from "moment";
 
 import PortfolioContainer from './portfolio/portfolio-container'
 import NavigationContainer from './navigation/navigation-container'
@@ -12,31 +12,17 @@ import PortfolioDetail  from "./portfolio/porfolio-detail";
 import NoMatch  from "./pages/no-match";
 
 export default class App extends Component {
-  constructor() {
-    super();
-    
-    this.getPortfolioItems = this.getPortfolioItems.bind(this);
-  }
-  getPortfolioItems() {
-    axios.get('https://jvazquez.devcamp.space/portfolio/portfolio_items')
-  .then( response => {
-    // handle success
-    console.log(response);
-  })
-  .catch (error => {
-    // handle error
-    console.log(error);
-  })
-  }
+ 
 
   render() {
-    this.getPortfolioItems();
+    
     return (
       <div className='app'>
       
          <Router>
           <div>
           <h1>Jordy Vazquez Portfolio</h1>
+          <div>{moment().format("MMMM Do YYYY, h:mm:ss a")}</div>
             <NavigationContainer />
 
             <Switch>
