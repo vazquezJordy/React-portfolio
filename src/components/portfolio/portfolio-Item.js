@@ -1,21 +1,45 @@
-import React from 'react';
-import {Link} from 'react-router-dom'
-export default function(props) {
-     // Data taht we'll need:
-        //  background image :thumb_image_url
-        //  logo : logo_url
-        //  description : description
-        //  Id: id
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 
-        const {id, description,  thumb_image_url, logo_url} = props.item;
-    return (
-        <div className="portfolio-item-wrapepr"> 
+export default class PortfolioItem extends Component {
+    constructor(props) {
+        super(props);
 
-            <img src={thumb_image_url} />
-            <img src={logo_url}/>
-            <div> {description} </div>
-            
-            <Link to = {`/portfolio/${id}`}>Link</Link>
-        </div>
-    );
+        this.state = {
+            PortfolioItemClass: ""
+        };
+    }
+
+    handelMouseEnter() {
+        this.setState({PortfolioItemClass: "image-blur"});
+    }
+
+    handelMouseLeave() {
+        this.setState({PortfolioItemClass: ""});
+    }
+    render() {
+        const { id, description, thumb_image_url, logo_url } = this.props.item;
+        return (
+            <div className="portfolio-item-wrapper">
+                <div
+                    className={"portfolio-img-background " + this.state.PortfolioItemClass}
+                    style={{
+                        backgroundImage: "url(" + thumb_image_url + ")"
+                    }}
+                />
+
+                <div className="img-text-wrapper" 
+                onMouseEnter={() => this.handelMouseEnter()}
+                onMouseLeave={() => this.handelMouseLeave()}
+
+                >
+                    <div className="logo-wrapper">
+                        <img src={logo_url} />
+                    </div>
+
+                    <div className="subtitle">{description}</div>
+                </div>
+            </div>
+        );
+    }
 }
