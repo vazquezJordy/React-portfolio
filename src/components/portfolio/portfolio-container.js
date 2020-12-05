@@ -80,7 +80,7 @@ export default class PortfolioContainer extends Component {
         if (this.state.isLoading) {
             return <div>Loading ....</div>;
         }
-        <h1>{Date()}</h1>
+        
         return (
             <div className="portfolio-items-wrapper">
                 <button className="btn" onClick={() => this.handleFilter('Education')}>Education</button>
