@@ -23,6 +23,9 @@ export default class Login extends Component {
         })
     }
     
+    clearEntries = () => {
+        this.setState({email: "", password: "" });
+    }
 
     handleSubmit(event) {
         axios
@@ -77,6 +80,7 @@ export default class Login extends Component {
                     
                     <div>
                         <button type="submit">Login</button>
+                        <button onClick={this.clearEntries}> Clear Journal Entries </button>
                     </div>
                 </form>
 
