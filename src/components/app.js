@@ -13,8 +13,8 @@ import NoMatch  from "./pages/no-match";
 // import { response } from 'express';
 
 export default class App extends Component {
-  constructor(probs) {
-    super(probs);
+  constructor(props) {
+    super(props);
 
     this.state = {
       loggedInStatus: "NOT_LOGGED_IN"
@@ -46,7 +46,7 @@ export default class App extends Component {
         // If not loggedIn and status LOGGED_IN => update state to be logged out
 
         if (loggedIN && loggedInStatus === "LOGGED_IN") {
-          return loggedIn;
+          return loggedIN
         } else if (loggedIN && loggedInStatus === "NOT_LOGGED_IN") {
           this.setState({
             loggedInStatus: "LOGGED_IN"
@@ -73,7 +73,7 @@ export default class App extends Component {
       
          <Router>
           <div>
-            <NavigationContainer />
+            <NavigationContainer loggedInStatus={this.state.loggedInStatus} />
 
             <h2>{this.state.loggedInStatus}</h2>
 

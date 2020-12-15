@@ -3,8 +3,8 @@ import axios from "axios"
 
 
 export default class Login extends Component {
-    constructor(probs){
-        super(probs);
+    constructor(props){
+        super(props);
 
         this.state= {
             email: "",

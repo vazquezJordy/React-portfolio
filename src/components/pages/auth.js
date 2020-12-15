@@ -3,8 +3,8 @@ import Login from "../auth/login"
 import LoginImg from "../../../static/assets/images/auth/login.jpg";
 
 export default class Auth extends Component {
-    constructor(probs){
-        super(probs);
+    constructor(props){
+        super(props);
 
         this.handleSuccesfulAuth = this.handleSuccesfulAuth.bind(this);
         this.handleUnsuccesfulAuth = this.handleUnsuccesfulAuth.bind(this);
