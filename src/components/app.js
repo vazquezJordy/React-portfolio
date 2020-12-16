@@ -19,9 +19,9 @@ export default class App extends Component {
     this.state = {
       loggedInStatus: "NOT_LOGGED_IN"
     }
-    this.handleUnsuccesfulLogin = this.handleUnsuccesfulLogin.bind(this)
-    this.handleSuccesfulLogin = this.handleSuccesfulLogin.bind(this)
-    this.handleSuccesfulLogout = this.handleSuccesfulLogout.bind(this)
+    this.handleUnsuccesfulLogin = this.handleUnsuccesfulLogin.bind(this);
+    this.handleSuccesfulLogin = this.handleSuccesfulLogin.bind(this);
+    this.handleSuccesfulLogout = this.handleSuccesfulLogout.bind(this);
   }
 
   handleSuccesfulLogin() {
