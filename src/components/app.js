@@ -10,7 +10,7 @@ import Blog  from "./pages/blog";
 import PortfolioDetail  from "./portfolio/porfolio-detail";
 import Auth  from "./pages/auth";
 import NoMatch  from "./pages/no-match";
-// import { response } from 'express';
+
 
 export default class App extends Component {
   constructor(props) {
@@ -21,6 +21,7 @@ export default class App extends Component {
     }
     this.handleUnsuccesfulLogin = this.handleUnsuccesfulLogin.bind(this)
     this.handleSuccesfulLogin = this.handleSuccesfulLogin.bind(this)
+    this.handleSuccesfulLogout = this.handleSuccesfulLogout.bind(this)
   }
 
   handleSuccesfulLogin() {
@@ -29,6 +30,12 @@ export default class App extends Component {
     })
   }
   handleUnsuccesfulLogin() {
+    this.setState({
+      loggedInStatus: "NOT_LOGGED_IN"
+    })
+  }
+
+  handleSuccesfulLogout() {
     this.setState({
       loggedInStatus: "NOT_LOGGED_IN"
     })
@@ -77,7 +84,10 @@ export default class App extends Component {
       
          <Router>
           <div>
-            <NavigationContainer loggedInStatus={this.state.loggedInStatus} />
+            <NavigationContainer 
+              loggedInStatus={this.state.loggedInStatus} 
+              handleSuccesfulLogout={this.handleSuccesfulLogout}
+              />
 
             <h2>{this.state.loggedInStatus}</h2>
 
