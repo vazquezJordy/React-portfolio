@@ -7,18 +7,18 @@ export default class PortfolioManager extends Component {
     super();
 
     this.state = {
-      pageTitle: "Welcome to my portfolio",
-      isLoading: false,
-      currentTime: String(new Date()),
-      data: []
+      portfolioItems: []
+    };
+  }
 
-  };
-
-  };
-
-  getData() {
-    axios.get('https://jvazquez.devcamp.space/portfolio/portfolio_items')
-    .then(response => {
+  getPortfolioItems() {
+    axios.get('https://jvazquez.devcamp.space/portfolio/portfolio_items', 
+      {withCredentials: true
+      })
+      .then(response => {
+        this.setState({
+          portfolioItems: [...response.data.portfolio_items]
+        })
       console.log(response.data.portfolio_items)
     })
     .catch(error => {
@@ -28,7 +28,7 @@ export default class PortfolioManager extends Component {
   }
 
   componentDidMount() {
-    this.getData();
+    this.getPortfolioItems();
 }
 
   render() {
