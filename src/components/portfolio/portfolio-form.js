@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import axios from "axios";
+
 
 export default class PortfolioForm extends Component {
   constructor(props) {
@@ -21,26 +23,33 @@ export default class PortfolioForm extends Component {
   buildForm() {
     let formData = new FormData();
 
-    formData.append("portfolio_item[name]", this.state.name)
-    formData.append("portfolio_item[description]", this.state.description)
-    formData.append("portfolio_item[url]", this.state.url)
-    formData.append("portfolio_item[category]", this.state.category)
-    formData.append("portfolio_item[position]", this.state.position)
-
-    
+    formData.append("portfolio_item[name]", this.state.name);
+    formData.append("portfolio_item[description]", this.state.description);
+    formData.append("portfolio_item[url]", this.state.url);
+    formData.append("portfolio_item[category]", this.state.category);
+    formData.append("portfolio_item[position]", this.state.position);
 
     return formData;
   }
 
   handleChange(event) {
     this.setState({
-        [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
   handleSubmit(event) {
-      this.buildForm();
-      event.preventDefault();
+    axios.post(
+      "https://jvazquez.devcamp.space/portfolio/portfolio_items",
+      this.buildForm(),
+      { withCredentials: true }
+    ).then(response => {
+      console.log("response", response);
+    }).catch( error => {
+      console.log("response",response);
+    })
+
+    event.preventDefault();
   }
   render() {
     return (
