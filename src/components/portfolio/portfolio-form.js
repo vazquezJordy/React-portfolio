@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-
 export default class PortfolioForm extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +8,7 @@ export default class PortfolioForm extends Component {
     this.state = {
       name: "",
       description: "",
-      category: "",
+      category: "eCommerce",
       position: "",
       url: "",
       thumb_image: "",
@@ -39,15 +38,19 @@ export default class PortfolioForm extends Component {
   }
 
   handleSubmit(event) {
-    axios.post(
-      "https://jvazquez.devcamp.space/portfolio/portfolio_items",
-      this.buildForm(),
-      { withCredentials: true }
-    ).then(response => {
-      console.log("response", response);
-    }).catch( error => {
-      console.log("response",response);
-    })
+    axios
+      .post(
+        "https://jvazquez.devcamp.space/portfolio/portfolio_items",
+        this.buildForm(),
+        { withCredentials: true }
+      )
+      .then((response) => {
+        this.props.handleSuccessfulForSubmission(response.data.portfolio_item);
+        
+      })
+      .catch((error) => {
+        console.log("response", response);
+      });
 
     event.preventDefault();
   }
@@ -82,22 +85,19 @@ export default class PortfolioForm extends Component {
               onChange={this.handleChange}
             />
 
-            <select 
+            <select
               name="category"
               value={this.state.category}
               onChange={this.handleChange}
             >
-
               <option value="eCommerce">eCommerce</option>
               <option value="Scheduling">Scheduling</option>
               <option value="Enterprise">Enterprise</option>
-
-
             </select>
           </div>
 
           <div>
-            <textarea 
+            <textarea
               type="text"
               name="description"
               placeholder="Description"
