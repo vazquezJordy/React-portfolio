@@ -233,7 +233,7 @@ export default class PortfolioForm extends Component {
 
               <div className="image-removal-link">
                 <a onClick={() => this.deleteImage("thumb_image")}>
-                  remove file
+                <FontAwesomeIcon icon ="trash-alt"/>
                 </a>
               </div>
 
@@ -255,7 +255,7 @@ export default class PortfolioForm extends Component {
 
               <div className="image-removal-link">
                 <a onClick={() => this.deleteImage("banner_image")}>
-                  remove file
+                <FontAwesomeIcon icon ="trash-alt"/>
                 </a>
               </div>
 
@@ -277,8 +277,7 @@ export default class PortfolioForm extends Component {
 
               <div className="image-removal-link">
                 <a onClick={() => this.deleteImage("logo")}>
-                  <FontAwesomeIcon icon ="trash"/>
-                  remove file
+                <FontAwesomeIcon icon="trash-alt"/>
                 </a>
               </div>
 

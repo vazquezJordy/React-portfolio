@@ -15,7 +15,7 @@ import PortfolioDetail  from "./portfolio/porfolio-detail";
 import Auth  from "./pages/auth";
 import NoMatch  from "./pages/no-match";
 
-library.add(faTrash, faSignOutAlt, faEdit), faTrashAlt;
+library.add(faTrash, faSignOutAlt, faEdit, faTrashAlt);
 
 
 export default class App extends Component {
