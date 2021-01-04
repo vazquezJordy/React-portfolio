@@ -20,7 +20,7 @@ export default class PortfolioForm extends Component {
       logo: "",
       editMode: false,
       apiUrl: "https://jvazquez.devcamp.space/portfolio/portfolio_items",
-      apiAction: 'post'
+      apiAction: "post",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -47,21 +47,21 @@ export default class PortfolioForm extends Component {
         url,
         thumb_image_url,
         banner_image_url,
-        logo_url
+        logo_url,
       } = this.props.portfolioToEdit;
 
       this.props.clearPortfolioToEdit();
 
       this.setState({
-      id: id,
-      name: name || "",
-      description: description || "",
-      category: category || "eCommerce",
-      position: position || "",
-      url: url || "",
-      editMode: true,
-      apiUrl: `https://jvazquez.devcamp.space/portfolio/portfolio_items/${id}`,
-      apiAction: 'patch'
+        id: id,
+        name: name || "",
+        description: description || "",
+        category: category || "eCommerce",
+        position: position || "",
+        url: url || "",
+        editMode: true,
+        apiUrl: `https://jvazquez.devcamp.space/portfolio/portfolio_items/${id}`,
+        apiAction: "patch",
       });
     }
   }
@@ -132,10 +132,14 @@ export default class PortfolioForm extends Component {
       method: this.state.apiAction,
       url: this.state.apiUrl,
       data: this.buildForm(),
-      withCredentials: true
+      withCredentials: true,
     })
       .then((response) => {
-        this.props.handleSuccessfulForSubmission(response.data.portfolio_item);
+        if (this.state.editMode) {
+          this.props.handleEditlFormSubmission();
+        } else {
+          this.props.handleNewlFormSubmission(response.data.portfolio_item);
+        }
 
         this.setState({
           name: "",
@@ -146,6 +150,9 @@ export default class PortfolioForm extends Component {
           thumb_image: "",
           banner_image: "",
           logo: "",
+          editMode: false,
+          apiUrl: "https://jvazquez.devcamp.space/portfolio/portfolio_items",
+          apiAction: "post",
         });
 
         [this.thumbRef, this.bannerRef, this.logoRef].forEach((ref) => {
