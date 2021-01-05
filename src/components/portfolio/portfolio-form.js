@@ -7,6 +7,7 @@ import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
 import "../../../node_modules//react-dropzone-component/styles/filepicker.css";
 
 
+
 export default class PortfolioForm extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +41,14 @@ export default class PortfolioForm extends Component {
   }
 
   deleteImage(imageType) {
-    console.log("deleteImage", imageType);
+    axios.delete(`https://api.devcamp.space/portfolio/delete-portfolio-image/${this.state.id}?image_type=${imageType}`, {withCredentials: true}
+    ).then(response => {
+      this.setState({
+        [`${imageType}_url`]: ""
+      })
+    }).catch(error => {
+      console.log("delete image error", error)
+    })
   }
 
   componentDidUpdate() {
@@ -56,7 +64,8 @@ export default class PortfolioForm extends Component {
         banner_image_url,
         logo_url,
       } = this.props.portfolioToEdit;
-
+      
+      
       this.props.clearPortfolioToEdit();
 
       this.setState({
