@@ -1,14 +1,50 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 export default class BlogForm extends Component {
-    render() {
-        return (
-            <form>
-                <input type="text" />
-                <input type="text" />
+  constructor(props) {
+    super(props);
 
-                <button>Save</button>
-            </form>
-        );
-    }
+    this.state = {
+      title: "",
+      blog_status: "",
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit() {
+    this.props.handleSuccessfullFormSubmission(this.state);
+    event.preventDefault();
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <input 
+        type="text" 
+        onChange={this.handleChange} 
+        name="title" 
+        placeholder="Blog Title" 
+        value={this.state.title} 
+        />
+
+        <input 
+        type="text" 
+        onChange={this.handleChange} 
+        name="blog_status" 
+        placeholder="Blog status" 
+        value={this.state.blog_status} 
+        />
+
+        <button>Save</button>
+      </form>
+    );
+  }
 }
