@@ -27,7 +27,7 @@ export default class BlogModal extends Component {
   }
 
   handleSuccessfullFormSubmission(blog) {
-    console.log("blog being passed", blog);
+    this.props.handleSuccessfullNewBlogSubmission(blog);
   }
 
   render() {
