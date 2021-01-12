@@ -40,12 +40,19 @@ export default class BlogForm extends Component {
         { withCredentials: true }
       )
       .then((response) => {
-        this.props.handleSuccessfullFormSubmission(response.data);
+        this.setState({
+          title: "",
+          blog_status: "",
+          content: ""
+        });
+
+        this.props.handleSuccessfullFormSubmission(response.data.portfolio_blog);
+
       })
       .catch((error) => {
         console.log("handle submit for blog error", error);
       });
-    this.props.handleSuccessfullFormSubmission(this.state);
+    
     event.preventDefault();
   }
 
@@ -78,7 +85,7 @@ export default class BlogForm extends Component {
 
         <div className="one-column">
           <RichTextEditor  
-          handleRichTextEditorChange={this.state.handleRichTextEditorChange}
+          handleRichTextEditorChange={this.handleRichTextEditorChange}
           />
         </div>
         
