@@ -3,6 +3,7 @@ import axios from "axios";
 import DropzoneComponent from "react-dropzone-component";
 
 import RichTextEditor from "../forms/rich-text-editor";
+import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
 
 export default class BlogForm extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ export default class BlogForm extends Component {
       title: "",
       blog_status: "",
       content: "",
-      featured_image: "",
+      featured_image: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -20,29 +21,32 @@ export default class BlogForm extends Component {
     this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(
       this
     );
-    this.componentCofig = this.componentCofig.bind(this);
+
+    this.componentConfig = this.componentConfig.bind(this);
     this.djsConfig = this.djsConfig.bind(this);
     this.handleFeaturedImageDrop = this.handleFeaturedImageDrop.bind(this);
+
+    this.featuredImageRef = React.createRef();
   }
 
-  componentCofig() {
+  componentConfig() {
     return {
       iconFiletypes: [".jpg", ".png"],
       showFiletypeIcon: true,
-      postUrl: "https://httpbin.org/post",
+      postUrl: "https://httpbin.org/post"
     };
   }
 
   djsConfig() {
     return {
-      addRemovedLinks: true,
-      maxFiles: 1,
+      addRemoveLinks: true,
+      maxFiles: 1
     };
   }
 
   handleFeaturedImageDrop() {
     return {
-      addedFile: file => this.setState({ featured_image: file }),
+      addedfile: file => this.setState({ featured_image: file })
     };
   }
 
@@ -57,29 +61,37 @@ export default class BlogForm extends Component {
     formData.append("portfolio_blog[blog_status]", this.state.blog_status);
     formData.append("portfolio_blog[content]", this.state.content);
 
+    if (this.state.featured_image) {
+    formData.append("portfolio_blog[featured_image]", this.state.featured_image);
+    }
     return formData;
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
     axios
       .post(
         "https://jvazquez.devcamp.space/portfolio/portfolio_blogs",
         this.buildForm(),
         { withCredentials: true }
       )
-      .then((response) => {
+      .then(response => {
+        if (this.state.featured_image) {
+          this.featuredImageRef.current.dropzone.removeAllFiles();
+        }
+        
         this.setState({
           title: "",
           blog_status: "",
           content: "",
+          featured_image: ""
         });
-
+        
         this.props.handleSuccessfullFormSubmission(
           response.data.portfolio_blog
         );
       })
-      .catch((error) => {
-        console.log("handle submit for blog error", error);
+      .catch(error => {
+        console.log("handleSubmit for blog error", error);
       });
 
     event.preventDefault();
@@ -87,7 +99,7 @@ export default class BlogForm extends Component {
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
   }
 
@@ -120,7 +132,8 @@ export default class BlogForm extends Component {
 
         <div className="image-uploaders">
           <DropzoneComponent
-            config={this.componentCofig()}
+            ref={this.featuredImageRef}
+            config={this.componentConfig()}
             djsConfig={this.djsConfig()}
             eventHandlers={this.handleFeaturedImageDrop()}
           >

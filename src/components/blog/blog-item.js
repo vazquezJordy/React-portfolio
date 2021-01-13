@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import striptags from "striptags";
 import Truncate from "react-truncate";
 
-const BlogItem = (props) => {
+const BlogItem = props => {
   const {
     id,
-    title,
-    content,
     blog_status,
-    featured_image_url,
+    content,
+    title,
+    featured_image_url
   } = props.blogItem;
 
   return (
@@ -22,7 +22,7 @@ const BlogItem = (props) => {
           lines={5}
           ellipsis={
             <span>
-              ...<Link to={`/b/${id}`}>Read More</Link>
+              ...<Link to={`/b/${id}`}>Read more</Link>
             </span>
           }
         >

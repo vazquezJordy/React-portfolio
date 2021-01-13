@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import ReactHtmlParser from "react-html-parser";
+
 import BlogFeaturedImage from "../blog/blog-featured-image";
 
 export default class BlogDetail extends Component {
@@ -9,20 +10,23 @@ export default class BlogDetail extends Component {
 
     this.state = {
       currentId: this.props.match.params.slug,
-      blogItem: {},
+      blogItem: {}
     };
   }
+
   getBlogItem() {
     axios
       .get(
-        `https://jvazquez.devcamp.space/portfolio/portfolio_blogs/${this.state.currentId}`
+        `https://jvazquez.devcamp.space/portfolio/portfolio_blogs/${
+          this.state.currentId
+        }`
       )
-      .then((response) => {
+      .then(response => {
         this.setState({
-          blogItem: response.data.portfolio_blog,
+          blogItem: response.data.portfolio_blog
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("getBlogItem error", error);
       });
   }
@@ -36,7 +40,7 @@ export default class BlogDetail extends Component {
       title,
       content,
       featured_image_url,
-      blog_status,
+      blog_status
     } = this.state.blogItem;
 
     return (
