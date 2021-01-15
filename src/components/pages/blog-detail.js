@@ -54,7 +54,7 @@ export default class BlogDetail extends Component {
 
     const contentManger = () => {
       if (this.state.editMode) {
-        return <Blogform />
+        return <Blogform editMode={this.state.editMode}  blog={this.state.blogItem} />
       } else {
         return (
         <div className="content-container">
@@ -67,7 +67,7 @@ export default class BlogDetail extends Component {
         )
       }
     }
-    
+
     return (
       <div className="blog-container">{contentManger()} </div>
     );
