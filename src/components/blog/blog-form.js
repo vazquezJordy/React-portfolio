@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import DropzoneComponent from "react-dropzone-component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import RichTextEditor from "../forms/rich-text-editor";
 
@@ -156,7 +157,9 @@ export default class BlogForm extends Component {
               <img src={this.props.blog.featured_image_url} />
 
               <div className="image-removal-link">
-                <a>Remove file</a>
+                <a onClick={() => this.deleteImage("thumb_image")}>
+                <FontAwesomeIcon icon ="trash-alt"/>
+                </a>
               </div>
             </div>
           ) : (
