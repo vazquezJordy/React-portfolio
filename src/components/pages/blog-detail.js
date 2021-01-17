@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import ReactHtmlParser from "react-html-parser";
 
-import Blogform from "../blog/blog-form"
+import Blogform from "../blog/blog-form";
 import BlogFeaturedImage from "../blog/blog-featured-image";
 
 export default class BlogDetail extends Component {
@@ -12,39 +12,45 @@ export default class BlogDetail extends Component {
     this.state = {
       currentId: this.props.match.params.slug,
       blogItem: {},
-      editMode: false
+      editMode: false,
     };
 
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleFeaturedImageDelete = this.handleFeaturedImageDelete.bind(this);
+    this.handleUpdateFormSubmission = this.handleUpdateFormSubmission.bind(this);
+  }
+
+  handleUpdateFormSubmission(blog) {
+    this.setState({
+      blogItem: blog,
+      editMode: false,
+    });
   }
 
   handleFeaturedImageDelete() {
     this.setState({
       blogItem: {
-        featured_image_url: ""
-      }
+        featured_image_url: "",
+      },
     });
   }
 
   handleEditClick() {
     console.log("handle edit click");
-    this.setState({ editMode: true});
+    this.setState({ editMode: true });
   }
 
   getBlogItem() {
     axios
       .get(
-        `https://jvazquez.devcamp.space/portfolio/portfolio_blogs/${
-          this.state.currentId
-        }`
+        `https://jvazquez.devcamp.space/portfolio/portfolio_blogs/${this.state.currentId}`
       )
-      .then(response => {
+      .then((response) => {
         this.setState({
-          blogItem: response.data.portfolio_blog
+          blogItem: response.data.portfolio_blog,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("getBlogItem error", error);
       });
   }
@@ -58,27 +64,32 @@ export default class BlogDetail extends Component {
       title,
       content,
       featured_image_url,
-      blog_status
+      blog_status,
     } = this.state.blogItem;
 
     const contentManger = () => {
       if (this.state.editMode) {
-        return <Blogform handleFeaturedImageDelete={this.handleFeaturedImageDelete} editMode={this.state.editMode}  blog={this.state.blogItem} />
+        return (
+          <Blogform
+            handleFeaturedImageDelete={this.handleFeaturedImageDelete}
+            handleUpdateFormSubmission={this.handleUpdateFormSubmission}
+            editMode={this.state.editMode}
+            blog={this.state.blogItem}
+          />
+        );
       } else {
         return (
-        <div className="content-container">
-          <h1 onClick={this.handleEditClick}>{title}</h1>
+          <div className="content-container">
+            <h1 onClick={this.handleEditClick}>{title}</h1>
 
-          <BlogFeaturedImage img={featured_image_url} />
+            <BlogFeaturedImage img={featured_image_url} />
 
-          <div className="content">{ReactHtmlParser(content)}</div>
-        </div>
-        )
+            <div className="content">{ReactHtmlParser(content)}</div>
+          </div>
+        );
       }
-    }
+    };
 
-    return (
-      <div className="blog-container">{contentManger()} </div>
-    );
+    return <div className="blog-container">{contentManger()} </div>;
   }
 }

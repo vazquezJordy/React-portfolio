@@ -14,7 +14,9 @@ export default class BlogForm extends Component {
       title: "",
       blog_status: "",
       content: "",
-      featured_image: ""
+      featured_image: "",
+      apiUrl: "https://jvazquez.devcamp.space/portfolio/portfolio_blogs",
+      apiAction: "post",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -31,12 +33,17 @@ export default class BlogForm extends Component {
   }
 
   deleteImage(imageType) {
-    axios.delete(`https://api.devcamp.space/portfolio/delete-portfolio-blog-image/${this.props.blog.id}?image_type=${imageType}`, {withCredentials: true}
-    ).then(response => {
-    this.props.handleFeaturedImageDelete();
-    }).catch(error => {
-      console.log("delete image error", error)
-    });
+    axios
+      .delete(
+        `https://api.devcamp.space/portfolio/delete-portfolio-blog-image/${this.props.blog.id}?image_type=${imageType}`,
+        { withCredentials: true }
+      )
+      .then((response) => {
+        this.props.handleFeaturedImageDelete();
+      })
+      .catch((error) => {
+        console.log("delete image error", error);
+      });
   }
 
   componentWillMount() {
@@ -44,7 +51,10 @@ export default class BlogForm extends Component {
       this.setState({
         id: this.props.blog.id,
         title: this.props.blog.title,
-        status: this.props.blog.status
+        blog_status: this.props.blog.blog_status,
+        content: this.props.blog.content,
+        apiUrl: `https://jvazquez.devcamp.space/portfolio/portfolio_blogs/${this.props.blog.id}`,
+        apiAction: "patch",
       });
     }
   }
@@ -53,20 +63,20 @@ export default class BlogForm extends Component {
     return {
       iconFiletypes: [".jpg", ".png"],
       showFiletypeIcon: true,
-      postUrl: "https://httpbin.org/post"
+      postUrl: "https://httpbin.org/post",
     };
   }
 
   djsConfig() {
     return {
       addRemoveLinks: true,
-      maxFiles: 1
+      maxFiles: 1,
     };
   }
 
   handleFeaturedImageDrop() {
     return {
-      addedfile: file => this.setState({ featured_image: file })
+      addedfile: (file) => this.setState({ featured_image: file }),
     };
   }
 
@@ -92,13 +102,13 @@ export default class BlogForm extends Component {
   }
 
   handleSubmit(event) {
-    axios
-      .post(
-        "https://jordan.devcamp.space/portfolio/portfolio_blogs",
-        this.buildForm(),
-        { withCredentials: true }
-      )
-      .then(response => {
+    axios({
+      method: this.state.apiAction,
+      url: this.state.apiUrl,
+      data: this.buildForm(),
+      withCredentials: true,
+    })
+      .then((response) => {
         if (this.state.featured_image) {
           this.featuredImageRef.current.dropzone.removeAllFiles();
         }
@@ -107,14 +117,18 @@ export default class BlogForm extends Component {
           title: "",
           blog_status: "",
           content: "",
-          featured_image: ""
+          featured_image: "",
         });
 
-        this.props.handleSuccessfullFormSubmission(
-          response.data.portfolio_blog
-        );
+        if (this.props.editMode) {
+          this.props.handleUpdateFormSubmission(response.data.portfolio_blog);
+        } else {
+          this.props.handleSuccessfullFormSubmission(
+            response.data.portfolio_blog
+          );
+        }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("handleSubmit for blog error", error);
       });
 
@@ -123,7 +137,7 @@ export default class BlogForm extends Component {
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
@@ -167,7 +181,7 @@ export default class BlogForm extends Component {
 
               <div className="image-removal-link">
                 <a onClick={() => this.deleteImage("featured_image")}>
-                <FontAwesomeIcon icon ="trash-alt"/>
+                  <FontAwesomeIcon icon="trash-alt" />
                 </a>
               </div>
             </div>
