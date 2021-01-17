@@ -20,11 +20,13 @@ export default class RichTextEditor extends Component {
   componentWillMount() {
     if (this.props.editMode && this.props.contentToEdit) {
       const blocksFromHtml = htmlToDraft(this.props.contentToEdit);
-      const {contentBlocks, entityMap } = blocksFromHtml;
-      const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+      const { contentBlocks, entityMap } = blocksFromHtml;
+      const contentState = ContentState.createFromBlockArray(
+        contentBlocks,
+        entityMap
+      );
       const editorState = EditorState.createWithContent(contentState);
-      this.setState({editorState})
-
+      this.setState({ editorState });
     }
   }
 
@@ -46,7 +48,7 @@ export default class RichTextEditor extends Component {
 
   uploadFile(file) {
     return new Promise((resolve, reject) => {
-      this.getBase64(file, data => resolve({data: {link: data}}));
+      this.getBase64(file, data => resolve({ data: { link: data } }));
     });
   }
 
@@ -59,15 +61,15 @@ export default class RichTextEditor extends Component {
           editorClassname="demo-editor"
           onEditorStateChange={this.onEditorStateChange}
           toolbar={{
-            inline: { inDropdown: true},
-            list: { inDropdown: true},
-            textAlign: {inDropdown: true},
-            link: {inDropdown: true},
-            history: {inDropdown: true},
+            inline: { inDropdown: true },
+            list: { inDropdown: true },
+            textAlign: { inDropdown: true },
+            link: { inDropdown: true },
+            history: { inDropdown: true },
             image: {
               uploadCallback: this.uploadFile,
-              alt: {present: true, mandatory: false},
-              previewImage:true,
+              alt: { present: true, mandatory: false },
+              previewImage: true,
               inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg"
             }
           }}

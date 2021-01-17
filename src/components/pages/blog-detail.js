@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import ReactHtmlParser from "react-html-parser";
 
-import Blogform from "../blog/blog-form";
+import BlogForm from "../blog/blog-form";
 import BlogFeaturedImage from "../blog/blog-featured-image";
 
 export default class BlogDetail extends Component {
@@ -12,45 +12,50 @@ export default class BlogDetail extends Component {
     this.state = {
       currentId: this.props.match.params.slug,
       blogItem: {},
-      editMode: false,
+      editMode: false
     };
 
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleFeaturedImageDelete = this.handleFeaturedImageDelete.bind(this);
-    this.handleUpdateFormSubmission = this.handleUpdateFormSubmission.bind(this);
+    this.handleUpdateFormSubmission = this.handleUpdateFormSubmission.bind(
+      this
+    );
   }
 
   handleUpdateFormSubmission(blog) {
     this.setState({
       blogItem: blog,
-      editMode: false,
+      editMode: false
     });
   }
 
   handleFeaturedImageDelete() {
     this.setState({
       blogItem: {
-        featured_image_url: "",
-      },
+        featured_image_url: ""
+      }
     });
   }
 
   handleEditClick() {
-    console.log("handle edit click");
-    this.setState({ editMode: true });
+    if (this.props.loggedInStatus === "LOGGED_IN") {
+      this.setState({ editMode: true });
+    }
   }
 
   getBlogItem() {
     axios
       .get(
-        `https://jvazquez.devcamp.space/portfolio/portfolio_blogs/${this.state.currentId}`
+        `https://jvazquez.devcamp.space/portfolio/portfolio_blogs/${
+          this.state.currentId
+        }`
       )
-      .then((response) => {
+      .then(response => {
         this.setState({
-          blogItem: response.data.portfolio_blog,
+          blogItem: response.data.portfolio_blog
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("getBlogItem error", error);
       });
   }
@@ -64,13 +69,13 @@ export default class BlogDetail extends Component {
       title,
       content,
       featured_image_url,
-      blog_status,
+      blog_status
     } = this.state.blogItem;
 
-    const contentManger = () => {
+    const contentManager = () => {
       if (this.state.editMode) {
         return (
-          <Blogform
+          <BlogForm
             handleFeaturedImageDelete={this.handleFeaturedImageDelete}
             handleUpdateFormSubmission={this.handleUpdateFormSubmission}
             editMode={this.state.editMode}
@@ -90,6 +95,6 @@ export default class BlogDetail extends Component {
       }
     };
 
-    return <div className="blog-container">{contentManger()} </div>;
+    return <div className="blog-container">{contentManager()}</div>;
   }
 }
