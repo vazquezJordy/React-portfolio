@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import NavigationContainer from "./navigation/navigation-container";
 import Home from "./pages/home";
-import About from "./pages/about";
+import AboutMe from "./pages/about";
 import Contact from "./pages/contact";
 import Blog from "./pages/blog";
 import BlogDetail from "./pages/blog-detail";
@@ -112,7 +112,7 @@ export default class App extends Component {
                 )}
               />
 
-              <Route path="/about-me" component={About} />
+              <Route path="/about-me" component={AboutMe} />
               <Route path="/contact" component={Contact} />
 
               <Route
