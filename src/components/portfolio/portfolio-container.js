@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import PortfolioItem from "./portfolio-item";
+import PortfolioItem from './portfolio-Item';
 
 export default class PortfolioContainer extends Component {
   constructor() {
